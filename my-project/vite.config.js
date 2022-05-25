@@ -18,12 +18,12 @@ export default defineConfig({
         }],
         name: "BeerSearch",
         short_name: "BeerSearch",
-        start_url: '/',
+        start_url: 'index.html',
         theme_color: '#dda15e'
       },
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['assets/**', 'index.html', 'manifest.webmanifest'],
+        globPatterns: ['assets/**', 'index.html', 'manifest.json'],
         runtimeCaching: [{
           handler: 'NetworkFirst',
           urlPattern: 'https://api.punkapi.com/v2/beers/random'

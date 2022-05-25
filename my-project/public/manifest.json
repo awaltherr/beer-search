@@ -1,0 +1,13 @@
+{
+    "background_color": "#dda15e",
+    "display": "standalone",
+    "icons": [{
+        "src": "favicon-196.png",
+        "type": "image.png",
+        "sizes": "128x128"
+    }],
+    "name": "Beer Search",
+    "short_name": "BeerSearch",
+    "start_url": ".",
+    "theme_color": "#808080"
+}
