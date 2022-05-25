@@ -1,10 +1,11 @@
 <template>
-  <div class="contact-us">
+  <div class="container">
+    <div class="contact-us">
     <h1>Get in touch</h1>
     <h2>Want to get in touch? We would love to hear from you.</h2>
-    <h2>Use the form below to send us your message and we will answer you</h2>
-
+    <h2>Use the form below to send us your message and we will answer your question as soon as possible.</h2>
 </div>
+  </div>
   <form @submit.prevent="submitMessage">
     <div class="form-control" :class="{invalid: userNameValidity === 'invalid'}">
       <label for="user-name">Name*</label>
@@ -88,16 +89,24 @@ export default {
 }
 
 </script>
-
 <style scoped>
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    line-height: 1.5;
+}
+
 .contact-us {
-    padding-top: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   margin: 1rem auto;
   max-width: 50rem;
   padding-left: 20px;
   padding-right: 20px;
   line-height: 1.5;
-  text-align: center;
+  text-align: left;
 }
 
 form {
