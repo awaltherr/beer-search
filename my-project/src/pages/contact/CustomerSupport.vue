@@ -1,89 +1,93 @@
 <template>
-  <div class="container">
+  
     <div class="contact-us">
     <h1>Get in touch</h1>
     <h2>Want to get in touch? We would love to hear from you.</h2>
     <h2>Use the form below to send us your message and we will answer your question as soon as possible.</h2>
 </div>
-  </div>
-  <form @submit.prevent="submitMessage">
-    <div class="form-control" :class="{invalid: userNameValidity === 'invalid'}">
+  
+  <form @submit.prevent="submitMessage" autocomplete="off">
+    <div class="form-control">
       <label for="user-name">Name*</label>
-      <input id="user-name" name="user-name" type="text" v-model.trim="userName" @blur="validateInput" />
-      <p v-if="userNameValidity == 'invalid'">Name is required</p>
+      <input id="user-name" name="user-name" type="text" v-model="state.name" />
+      <span v-if="v$.name.$error">
+        <p>Name is required</p>
+      </span>
     </div>
     <div class="form-control">
       <label for="age">Age</label>
-      <input id="age" name="age" type="number" v-model="userAge" />
-    </div>
-    <div class="form-control" :class="{invalid: emailValidity === 'invalid'}">
-      <label for="email">Email*</label>
-      <input id="email" name="email" type="email" v-model.trim="email" @blur="validateInput" />
-      <p v-if="emailValidity == 'invalid'">Valid email is required</p>
+      <input id="age" name="age" type="number" />
     </div>
     <div class="form-control">
-      <label for="referrer">How did you hear about us?</label>
-      <select id="referrer" name="referrer" v-model="referrer">
+      <label for="email">Email*</label>
+      <input id="email" name="email" type="email" v-model="state.email" />
+      <span v-if="v$.email.$error">
+      <p>Valid email is required</p>
+      </span>
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?*</label>
+      <select id="referrer" name="referrer" v-model="state.referrer">
         <option value="google">Google</option>
         <option value="wom">Word of mouth</option>
         <option value="newspaper">Social Media</option>
         <option value="other">Other</option>
       </select>
+       <span v-if="v$.referrer.$error">
+      <p>Please select a referrer</p>
+      </span>
     </div>
-    <div class="form-control" :class="{invalid: messageValidity === 'invalid'}">
+
+    <div class="form-control">
       <label for="message">Message*</label>
-      <textarea rows="5" cols="50" id="message" name="message" v-model.trim="message" @blur="validateInput">Aa</textarea>
-      <p v-if="messageValidity == 'invalid'">Message is required</p>
+      <textarea rows="5" cols="50" id="message" name="message" v-model="state.message">Aa</textarea>
+      <span v-if="v$.message.$error">
+      <p>Please write your message</p>
+      </span>
     </div>
-    <div id="send">
-      <router-link to='/thankyou'>Send Message</router-link>
+    <div>
+       <button id="send" @click="submitForm">Send Message</button>
     </div>
   </form>
 </template>
 
 <script>
 
+import useValidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
+
 export default {
-  data() {
-    return {
-      userName: '',
-      userAge: null,
-      referrer: 'google',
+  setup() {
+    const state = reactive({
+      name: '',
       email: '',
-      message: '',
-      userNameValidity: 'pending',
-      emailValidity: 'pending',
-      messageValidity: 'pending'
-    };
+      referrer: '',
+      message: ''
+    })
+
+  const rules = computed(() => {
+    return {
+      name: { required },
+      email: { required, email },
+      referrer: { required },
+      message: { required }
+      }
+    })
+
+    const v$ = useValidate(rules, state)
+
+    return {
+      state,
+      v$
+    }
   },
   methods: {
-    submitMessage() {
-      this.userName = '';
-      this.userAge = null;
-      this.email = '';
-      this.referrer = 'google';
-      this.message = ''
-    },
-    validateInput() {
-      if (this.userName === ''){
-        this.userNameValidity = 'invalid';
-      } else {
-        this.userNameValidity = 'valid';
-      }
-      if (!this.validEmail(this.email)) {
-        this.emailValidity = 'invalid';
-      } else {
-        this.emailValidity = 'valid';
-      }
-      if (this.message === ''){
-        this.messageValidity = 'invalid';
-      } else {
-        this.messageValidity = 'valid';
-      }
-    },
-    validEmail: function (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+    submitForm() {
+      this.v$.$validate()
+      if (!this.v$.$error) {
+        this.$router.push({ path: '/thankyou' })
+      } 
     }
   }
 }
@@ -91,39 +95,29 @@ export default {
 </script>
 <style scoped>
 
-.container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-    line-height: 1.5;
-}
-
 .contact-us {
   padding-top: 50px;
-  padding-bottom: 50px;
   margin: 1rem auto;
   max-width: 50rem;
   padding-left: 20px;
   padding-right: 20px;
   line-height: 1.5;
-  text-align: left;
 }
 
 form {
+  max-width: 800px;
   margin: 2rem auto;
-  max-width: 40rem;
+  max-width: 50rem;
+  background: white;
+  border: 1px solid #424242;
   border-radius: 12px;
+  padding: 20px 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 2rem;
-  background-color: white;
+  line-height: 1.5;
 }
 
 .form-control {
   margin: 0.5rem 0;
-}
-
-.form-control.invalid p {
-  color: red;
 }
 
 label {
@@ -171,6 +165,11 @@ select {
   background-color: #4f6a2f;
 }
 
+span {
+  margin-top: 10px;
+  color: red;
+  font-size: 12px;
+}
 
 
 

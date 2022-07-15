@@ -1,8 +1,8 @@
 <template>
 
 <div class="info">
-  <h1>This generator is a tool to show information of random Beers. Just by the action of clicking of a button.</h1>
-  <p>This is a place for the curious to find out information about Beers that the world has to offer and will hope fully gain you knowledge of these to show others.</p>
+  <h1>This generator is a tool to show information of random Beers. Just by the action of clicking a button.</h1>
+  <p>This is a place for the curious to find out information about beers that the world has to offer and will hope fully gain you knowledge of these to show others.</p>
 </div>
 
 <ul>
@@ -53,7 +53,6 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   line-height: 1.5;
-
 }
 
 body {

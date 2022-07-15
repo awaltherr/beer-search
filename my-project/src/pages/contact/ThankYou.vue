@@ -2,8 +2,8 @@
 <div class="container">
     <div class="thanks">
     <h1>Thank you for your message!</h1>
-    <h2>We will return with a response to your message within 1-2 working days.</h2>
-    <h2>Thank you for using UniSearch!</h2>
+    <h2>We have recieved your message and we will contact you as soon as possible.</h2>
+    <h2>Thank you for using BeerSearch!</h2>
 </div>
 </div>
 </template>
